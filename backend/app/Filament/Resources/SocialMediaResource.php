@@ -4,36 +4,39 @@ namespace App\Filament\Resources;
 
 use Filament\Forms;
 use Filament\Tables;
-use App\Models\Featured;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
+use App\Models\SocialMedia;
 use Filament\Resources\Resource;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\ToggleColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Guava\FilamentIconPicker\Forms\IconPicker;
 use Guava\FilamentIconPicker\Tables\IconColumn;
-use App\Filament\Resources\FeaturedResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\FeaturedResource\RelationManagers;
-use Filament\Tables\Columns\ToggleColumn;
+use App\Filament\Resources\SocialMediaResource\Pages;
+use App\Filament\Resources\SocialMediaResource\RelationManagers;
 
-class FeaturedResource extends Resource
+class SocialMediaResource extends Resource
 {
-    protected static ?string $model = Featured::class;
+    protected static ?string $model = SocialMedia::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static ?int $navigationSort = 1;
+    protected static ?string  $navigationGroup = 'Website Settings';
+    protected static ?int $navigationSort = 0;
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                TextInput::make('title')
+                TextInput::make('link')
+                    ->url()
+                    ->columnSpan(2)
+                    ->required(),
+                IconPicker::make('icon')
                     ->required()
-                    ->maxLength(16),
-                IconPicker::make('icon'),
             ]);
     }
 
@@ -71,9 +74,9 @@ class FeaturedResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListFeatureds::route('/'),
-            'create' => Pages\CreateFeatured::route('/create'),
-            'edit' => Pages\EditFeatured::route('/{record}/edit'),
+            'index' => Pages\ListSocialMedia::route('/'),
+            'create' => Pages\CreateSocialMedia::route('/create'),
+            'edit' => Pages\EditSocialMedia::route('/{record}/edit'),
         ];
     }
 
