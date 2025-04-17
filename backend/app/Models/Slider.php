@@ -21,4 +21,9 @@ class Slider extends Model implements Sortable, HasMedia
         "is_active",
         "order_column"
     ];
+
+    protected $casts = [
+        'is_active' => 'boolean',
+        'order_column' => 'integer',
+    ];
 }

@@ -4,24 +4,23 @@ namespace App\Filament\Resources;
 
 use Filament\Forms;
 use Filament\Tables;
-use App\Models\Slider;
+use App\Models\Featured;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
-use App\Filament\Resources\SliderResource\Pages;
+use Guava\FilamentIconPicker\Forms\IconPicker;
+use Guava\FilamentIconPicker\Tables\IconColumn;
+use App\Filament\Resources\FeaturedResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\SliderResource\RelationManagers;
-use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
-use Filament\Forms\Components\Toggle;
-use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
-use Filament\Tables\Columns\TextColumn;
+use App\Filament\Resources\FeaturedResource\RelationManagers;
 use Filament\Tables\Columns\ToggleColumn;
 
-class SliderResource extends Resource
+class FeaturedResource extends Resource
 {
-    protected static ?string $model = Slider::class;
+    protected static ?string $model = Featured::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -30,17 +29,9 @@ class SliderResource extends Resource
         return $form
             ->schema([
                 TextInput::make('title')
-                    ->maxLength(32),
-                TextInput::make('subtitle')
-                    ->maxLength(32),
-                TextInput::make('link')
-                    ->url(),
-                SpatieMediaLibraryFileUpload::make('image')
-                    ->collection('sliders')
                     ->required()
-                    ->label('Image')
-                    ->maxFiles(1)
-                    ->image(),
+                    ->maxLength(16),
+                IconPicker::make('icon'),
             ]);
     }
 
@@ -48,16 +39,8 @@ class SliderResource extends Resource
     {
         return $table
             ->columns([
-                SpatieMediaLibraryImageColumn::make('image')
-                    ->collection('sliders')
-                    ->label('Image')
-                    ->size(50)
-                    ->circular(),
-                TextColumn::make('title')
-                    ->limit(32),
-                TextColumn::make('subtitle')
-                    ->limit(32),
-                TextColumn::make('link'),
+                IconColumn::make('icon'),
+                TextColumn::make('title'),
                 ToggleColumn::make('is_active')
                     ->label('Active')
             ])
@@ -65,9 +48,7 @@ class SliderResource extends Resource
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -88,9 +69,9 @@ class SliderResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListSliders::route('/'),
-            'create' => Pages\CreateSlider::route('/create'),
-            'edit' => Pages\EditSlider::route('/{record}/edit'),
+            'index' => Pages\ListFeatureds::route('/'),
+            'create' => Pages\CreateFeatured::route('/create'),
+            'edit' => Pages\EditFeatured::route('/{record}/edit'),
         ];
     }
 
