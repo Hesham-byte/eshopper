@@ -10,7 +10,6 @@ const Featured = () => {
             try {
                 const response = await axios.get(import.meta.env.VITE_API_URL + '/featureds');
                 setFeatureds(response.data);
-                console.log(response.data);
             } catch (error) {
                 console.error("Error fetching featureds:", error);
             }

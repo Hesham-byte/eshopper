@@ -13,12 +13,7 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-        return Department::where('is_active', true)->orderBy('order_column')->get()->map(function ($department) {
-            return [
-                'id' => $department->id,
-                'name' => $department->name,
-            ];
-        });
+        //
     }
 
     /**
@@ -51,5 +46,25 @@ class DepartmentController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function getDepartmentsWithCategories()
+    {
+        return Department::where('is_active', true)->orderBy('order_column')->get()->map(function ($department) {
+            return [
+                'id' => $department->id,
+                'name' => $department->name,
+                'categories' => $department->categories->map(function ($category) {
+                    return [
+                        'id' => $category->id,
+                        'name' => $category->name,
+                        'image' => $category->getFirstMediaUrl('categories'),
+                    ];
+                }),
+            ];
+        });
     }
 }

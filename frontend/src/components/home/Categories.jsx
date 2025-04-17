@@ -10,7 +10,6 @@ const Categories = () => {
             try {
                 const response = await axios.get(import.meta.env.VITE_API_URL + '/categories');
                 setCategories(response.data);
-                console.log(response.data);
             } catch (error) {
                 console.error("Error fetching categories:", error);
             }
@@ -27,7 +26,7 @@ const Categories = () => {
                         <div>Loading categories...</div>
                     ) : (
                         categories.map((category, index) => (
-                            <div className="col-lg-4 col-md-6 pb-1">
+                            <div className="col-lg-4 col-md-6 pb-1" key={category.id}>
                                 <div className="cat-item d-flex flex-column border mb-4" style={{"padding":"30px"}}>
                                     <p className="text-right"></p>
                                     <a href="" className="cat-img position-relative overflow-hidden mb-3">

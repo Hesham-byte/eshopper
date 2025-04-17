@@ -14,3 +14,5 @@ Route::apiResources([
     "departments" => DepartmentController::class,
     "categories" => CategoryController::class,
 ]);
+
+Route::get("departments-categories", [DepartmentController::class, 'getDepartmentsWithCategories'])->name('departments-categories');
