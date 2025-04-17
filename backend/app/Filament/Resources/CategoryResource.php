@@ -4,65 +4,60 @@ namespace App\Filament\Resources;
 
 use Filament\Forms;
 use Filament\Tables;
-use App\Models\Slider;
+use App\Models\Category;
 use Filament\Forms\Form;
+use App\Models\Department;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
-use App\Filament\Resources\SliderResource\Pages;
+use App\Filament\Resources\CategoryResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\SliderResource\RelationManagers;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
-use Filament\Forms\Components\Toggle;
-use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\ToggleColumn;
+use App\Filament\Resources\CategoryResource\RelationManagers;
 
-class SliderResource extends Resource
+class CategoryResource extends Resource
 {
-    protected static ?string $model = Slider::class;
+    protected static ?string $model = Category::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static ?int $navigationSort = 0;
+    protected static ?int $navigationSort = 3;
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                TextInput::make('title')
+                TextInput::make('name')
+                    ->required()
                     ->maxLength(32),
-                TextInput::make('subtitle')
-                    ->maxLength(32),
-                TextInput::make('link')
-                    ->url(),
+                Forms\Components\Select::make('department_id')
+                    ->options(Department::all()->pluck('name', 'id'))
+                    ->required(),
                 SpatieMediaLibraryFileUpload::make('image')
-                    ->collection('sliders')
+                    ->collection('categories')
                     ->required()
                     ->label('Image')
                     ->maxFiles(1)
-                    ->image(),
+                    ->image()
             ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
-            ->reorderable('order_column')
             ->columns([
-                SpatieMediaLibraryImageColumn::make('image')
-                    ->collection('sliders')
+                Tables\Columns\SpatieMediaLibraryImageColumn::make('image')
+                    ->collection('categories')
                     ->label('Image')
                     ->size(50)
                     ->circular(),
-                TextColumn::make('title')
+                Tables\Columns\TextColumn::make('name')
                     ->limit(32),
-                TextColumn::make('subtitle')
-                    ->limit(32),
-                TextColumn::make('link'),
-                ToggleColumn::make('is_active')
-                    ->label('Active')
+                Tables\Columns\TextColumn::make('department.name')
+                    ->label('Department'),
+                Tables\Columns\ToggleColumn::make('is_active')
+                    ->label('Active'),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
@@ -91,9 +86,9 @@ class SliderResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListSliders::route('/'),
-            'create' => Pages\CreateSlider::route('/create'),
-            'edit' => Pages\EditSlider::route('/{record}/edit'),
+            'index' => Pages\ListCategories::route('/'),
+            'create' => Pages\CreateCategory::route('/create'),
+            'edit' => Pages\EditCategory::route('/{record}/edit'),
         ];
     }
 

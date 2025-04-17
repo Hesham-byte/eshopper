@@ -43,6 +43,7 @@ class SocialMediaResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->reorderable('order_column')
             ->columns([
                 IconColumn::make('icon'),
                 TextColumn::make('link'),
@@ -53,7 +54,9 @@ class SocialMediaResource extends Resource
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

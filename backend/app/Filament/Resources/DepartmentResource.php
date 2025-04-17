@@ -2,38 +2,33 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Resources\DepartmentResource\Pages;
+use App\Filament\Resources\DepartmentResource\RelationManagers;
+use App\Models\Department;
 use Filament\Forms;
-use Filament\Tables;
-use App\Models\Featured;
-use Filament\Forms\Form;
-use Filament\Tables\Table;
-use Filament\Resources\Resource;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Form;
+use Filament\Resources\Resource;
+use Filament\Tables;
+use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Guava\FilamentIconPicker\Forms\IconPicker;
-use Guava\FilamentIconPicker\Tables\IconColumn;
-use App\Filament\Resources\FeaturedResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\FeaturedResource\RelationManagers;
-use Filament\Tables\Columns\ToggleColumn;
 
-class FeaturedResource extends Resource
+class DepartmentResource extends Resource
 {
-    protected static ?string $model = Featured::class;
+    protected static ?string $model = Department::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                TextInput::make('title')
+                TextInput::make('name')
                     ->required()
-                    ->maxLength(16),
-                IconPicker::make('icon'),
+                    ->maxLength(32),
             ]);
     }
 
@@ -42,10 +37,10 @@ class FeaturedResource extends Resource
         return $table
             ->reorderable('order_column')
             ->columns([
-                IconColumn::make('icon'),
-                TextColumn::make('title'),
-                ToggleColumn::make('is_active')
-                    ->label('Active')
+                Tables\Columns\TextColumn::make('name')
+                    ->limit(32),
+                Tables\Columns\ToggleColumn::make('is_active')
+                    ->label('Active'),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
@@ -74,9 +69,9 @@ class FeaturedResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListFeatureds::route('/'),
-            'create' => Pages\CreateFeatured::route('/create'),
-            'edit' => Pages\EditFeatured::route('/{record}/edit'),
+            'index' => Pages\ListDepartments::route('/'),
+            'create' => Pages\CreateDepartment::route('/create'),
+            'edit' => Pages\EditDepartment::route('/{record}/edit'),
         ];
     }
 
