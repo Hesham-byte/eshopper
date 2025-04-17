@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import {Link, useLocation} from "react-router-dom";
+import LoginModal from "./LoginModal.jsx";
+import RegisterModal from "./RegisterModal.jsx";
 
 
 const Navbar = () => {
@@ -115,8 +117,22 @@ const Navbar = () => {
                                     <Link to="/contact" className="nav-item nav-link">Contact</Link>
                                 </div>
                                 <div className="navbar-nav ml-auto py-0">
-                                    <a href="" className="nav-item nav-link">Login</a>
-                                    <a href="" className="nav-item nav-link">Register</a>
+                                    <a
+                                        type="button"
+                                        className="nav-item nav-link"
+                                        data-toggle="modal"
+                                        data-target="#loginModal"
+                                    >
+                                        Login
+                                    </a>
+                                    <a
+                                        type="button"
+                                        className="nav-item nav-link"
+                                        data-toggle="modal"
+                                        data-target="#registerModal"
+                                    >
+                                        Register
+                                    </a>
                                 </div>
                             </div>
                         </nav>
@@ -170,6 +186,8 @@ const Navbar = () => {
                     </div>
                 </div>
             </div>
+            <LoginModal/>
+            <RegisterModal/>
         </>
     );
 };
