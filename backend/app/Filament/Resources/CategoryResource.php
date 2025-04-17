@@ -32,6 +32,7 @@ class CategoryResource extends Resource
                     ->required()
                     ->maxLength(32),
                 Forms\Components\Select::make('department_id')
+                    ->label('Department')
                     ->options(Department::all()->pluck('name', 'id'))
                     ->required(),
                 SpatieMediaLibraryFileUpload::make('image')

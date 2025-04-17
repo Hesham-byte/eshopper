@@ -3,20 +3,21 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Models\Department;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
-class DepartmentController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return Department::where('is_active', true)->orderBy('order_column')->get()->map(function ($department) {
+        return Category::where('is_active', true)->orderBy('order_column')->get()->map(function ($category) {
             return [
-                'id' => $department->id,
-                'name' => $department->name,
+                'id' => $category->id,
+                'name' => $category->name,
+                'image' => $category->getFirstMediaUrl('categories'),
             ];
         });
     }
