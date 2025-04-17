@@ -15,7 +15,11 @@ return [
     | When set to null (default), every installed icon set will be used.
     |
     */
-    'sets' => 'fontawesome-solid',
+    'sets' => [
+        'fontawesome-solid',
+        'fontawesome-brands',
+        'fontawesome-regular',
+    ],
     //     example:
     //     'sets' => 'heroicons',
     //     'sets' => [
@@ -76,7 +80,7 @@ return [
     |
     */
     'cache' => [
-        'enabled' => true,
+        'enabled' => false,
         'duration' => '7 days',
     ],
 

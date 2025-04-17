@@ -45,7 +45,7 @@ class SocialMediaResource extends Resource
         return $table
             ->columns([
                 IconColumn::make('icon'),
-                TextColumn::make('title'),
+                TextColumn::make('link'),
                 ToggleColumn::make('is_active')
                     ->label('Active')
             ])

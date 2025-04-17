@@ -12,7 +12,7 @@ const Featured = () => {
                 setFeatureds(response.data);
                 console.log(response.data);
             } catch (error) {
-                console.error("Error fetching sliders:", error);
+                console.error("Error fetching featureds:", error);
             }
         };
 

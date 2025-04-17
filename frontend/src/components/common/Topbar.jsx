@@ -1,6 +1,23 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
+import axios from "axios";
 
 const Topbar = () => {
+
+    const [socials, setSocials] = useState([]);
+
+    useEffect(() => {
+        const fetchSocials = async () => {
+            try {
+                const response = await axios.get(import.meta.env.VITE_API_URL + '/socials');
+                setSocials(response.data);
+                console.log(response.data);
+            } catch (error) {
+                console.error("Error fetching socials:", error);
+            }
+        };
+
+        fetchSocials();
+    }, []);
     return (
         <>
             <div className="container-fluid">
@@ -16,21 +33,15 @@ const Topbar = () => {
                     </div>
                     <div className="col-lg-6 text-center text-lg-right">
                         <div className="d-inline-flex align-items-center">
-                            <a className="text-dark px-2" href="">
-                                <i className="fab fa-facebook-f"></i>
-                            </a>
-                            <a className="text-dark px-2" href="">
-                                <i className="fab fa-twitter"></i>
-                            </a>
-                            <a className="text-dark px-2" href="">
-                                <i className="fab fa-linkedin-in"></i>
-                            </a>
-                            <a className="text-dark px-2" href="">
-                                <i className="fab fa-instagram"></i>
-                            </a>
-                            <a className="text-dark pl-2" href="">
-                                <i className="fab fa-youtube"></i>
-                            </a>
+                            {socials.length === 0 ? (
+                                <div>Loading socials...</div>
+                            ) : (
+                                socials.map((social, index) => (
+                                    <a className="text-dark px-2" href={social.link || "#"} key={social.id}>
+                                        <i className={`fab ${social.icon.replace('fab', 'fa')}`}></i>
+                                    </a>
+                                ))
+                            )}
                         </div>
                     </div>
                 </div>
