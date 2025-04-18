@@ -9,7 +9,7 @@ use App\Http\Controllers\API\DepartmentController;
 use App\Http\Controllers\API\OfferController;
 use App\Http\Controllers\API\ProductController;
 use App\Http\Controllers\API\SocialMediaController;
-
+use App\Http\Controllers\API\SubscribeController;
 
 Route::apiResources([
     "sliders" => SliderController::class,
@@ -19,6 +19,7 @@ Route::apiResources([
     "categories" => CategoryController::class,
     "offers" => OfferController::class,
     "products" => ProductController::class,
+    "subscribe" => SubscribeController::class,
 ]);
 
 Route::post("register", [AuthController::class, 'register'])->name('register');
