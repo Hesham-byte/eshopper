@@ -2,24 +2,27 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\HasMedia;
 use Spatie\EloquentSortable\Sortable;
+use Illuminate\Database\Eloquent\Model;
 use Spatie\EloquentSortable\SortableTrait;
+use Spatie\MediaLibrary\InteractsWithMedia;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Category extends Model implements HasMedia, Sortable
+class Product extends Model implements Sortable, HasMedia
 {
     use HasFactory, SoftDeletes, SortableTrait, InteractsWithMedia;
-
-    protected $table = "categories";
+    protected $table = "products";
     protected $fillable = [
         "name",
+        "description",
+        "price",
+        "category_id",
         "is_active",
-        "order_column",
-        "department_id",
+        "is_featured",
+        "is_new",
+        "order_column"
     ];
 
     protected $casts = [
@@ -27,13 +30,8 @@ class Category extends Model implements HasMedia, Sortable
         'order_column' => 'integer',
     ];
 
-    public function department()
+    public function category()
     {
-        return $this->belongsTo(Department::class);
-    }
-
-    public function products()
-    {
-        return $this->hasMany(Product::class);
+        return $this->belongsTo(Category::class);
     }
 }

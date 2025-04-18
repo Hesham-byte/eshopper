@@ -7,6 +7,7 @@ use App\Http\Controllers\API\CategoryController;
 use App\Http\Controllers\API\FeaturedController;
 use App\Http\Controllers\API\DepartmentController;
 use App\Http\Controllers\API\OfferController;
+use App\Http\Controllers\API\ProductController;
 use App\Http\Controllers\API\SocialMediaController;
 
 
@@ -17,6 +18,7 @@ Route::apiResources([
     "departments" => DepartmentController::class,
     "categories" => CategoryController::class,
     "offers" => OfferController::class,
+    "products" => ProductController::class,
 ]);
 
 Route::post("register", [AuthController::class, 'register'])->name('register');
@@ -25,3 +27,5 @@ Route::post("logout", [AuthController::class, 'logout'])->name('logout');
 
 
 Route::get("departments-categories", [DepartmentController::class, 'getDepartmentsWithCategories'])->name('departments-categories');
+Route::get("new-products", [ProductController::class, 'newProducts'])->name('new-products');
+Route::get("featured-products", [ProductController::class, 'featuredProducts'])->name('featured-products');

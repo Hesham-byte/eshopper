@@ -26,7 +26,7 @@ const Offer = () => {
                         <div>Loading offers...</div>
                     ) : (
                         offers.map((offer, index) => (
-                            <div className="col-md-6 pb-4">
+                            <div className="col-md-6 pb-4" key={offer.id}>
                                 <div
                                     className="position-relative bg-secondary text-center text-md-right text-white mb-2 py-5 px-5">
                                     <img src={offer.image} alt=""/>
