@@ -13,7 +13,15 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        return Product::where('is_active', true)->orderBy('order_column')->get()->map(function ($product) {
+            return [
+                'id' => $product->id,
+                'name' => $product->name,
+                'description' => $product->description,
+                'price' => $product->price,
+                'image' => $product->getFirstMediaUrl('products'),
+            ];
+        });
     }
 
     /**
@@ -50,7 +58,7 @@ class ProductController extends Controller
 
     public function featuredProducts(Request $request)
     {
-        return Product::where('is_featured', true)->orderBy('order_column')->get()->map(function ($product) {
+        return Product::where('is_active', true)->where('is_featured', true)->orderBy('order_column')->get()->map(function ($product) {
             return [
                 'id' => $product->id,
                 'name' => $product->name,
@@ -63,7 +71,7 @@ class ProductController extends Controller
 
     public function newProducts(Request $request)
     {
-        return Product::where('is_new', true)->orderBy('order_column')->get()->map(function ($product) {
+        return Product::where('is_active', true)->where('is_new', true)->orderBy('order_column')->get()->map(function ($product) {
             return [
                 'id' => $product->id,
                 'name' => $product->name,
