@@ -1,6 +1,45 @@
-import React from 'react';
+import React, {useState} from 'react';
+import axios from "axios";
 
 const Footer = () => {
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [message, setMessage] = useState('');
+    const [loading, setLoading] = useState(false);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        if (!name || !email) {
+            setMessage('Please fill out both fields.');
+            return;
+        }
+
+        setLoading(true);
+        setMessage('');
+
+        try {
+            // Replace this with your backend API route
+            const response = await axios.post(import.meta.env.VITE_API_URL + '/subscribe', {
+                name,
+                email,
+            });
+
+            if (response.data.message) {
+                setMessage('✅ Subscribed successfully!');
+                setName('');
+                setEmail('');
+            } else {
+                setMessage('❌ Failed to subscribe. Try again.');
+            }
+        } catch (error) {
+            console.error(error);
+            setMessage('⚠️ An error occurred. Please try again.');
+        }
+
+        setLoading(false);
+    };
+
     return (
         <>
             <div className="container-fluid bg-secondary text-dark mt-5 pt-5">
@@ -56,21 +95,41 @@ const Footer = () => {
                             </div>
                             <div className="col-md-4 mb-5">
                                 <h5 className="font-weight-bold text-dark mb-4">Newsletter</h5>
-                                <form action="">
+                                <form onSubmit={handleSubmit}>
                                     <div className="form-group">
-                                        <input type="text" className="form-control border-0 py-4"
-                                               placeholder="Your Name" required="required"/>
+                                        <input
+                                            type="text"
+                                            className="form-control border-0 py-4"
+                                            placeholder="Your Name"
+                                            value={name}
+                                            onChange={(e) => setName(e.target.value)}
+                                            required
+                                        />
                                     </div>
                                     <div className="form-group">
-                                        <input type="email" className="form-control border-0 py-4"
-                                               placeholder="Your Email"
-                                               required="required"/>
+                                        <input
+                                            type="email"
+                                            className="form-control border-0 py-4"
+                                            placeholder="Your Email"
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
+                                            required
+                                        />
                                     </div>
                                     <div>
-                                        <button className="btn btn-primary btn-block border-0 py-3"
-                                                type="submit">Subscribe Now
+                                        <button
+                                            className="btn btn-primary btn-block border-0 py-3"
+                                            type="submit"
+                                            disabled={loading}
+                                        >
+                                            {loading ? 'Subscribing...' : 'Subscribe Now'}
                                         </button>
                                     </div>
+                                    {message && (
+                                        <div className="mt-3 text-center text-black-50">
+                                            {message}
+                                        </div>
+                                    )}
                                 </form>
                             </div>
                         </div>

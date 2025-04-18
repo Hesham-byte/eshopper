@@ -10,6 +10,7 @@ class Subscribe extends Model
 {
     use HasFactory, SoftDeletes;
     protected $fillable = [
+        'name',
         'email',
     ];
 }

@@ -21,10 +21,12 @@ class SubscribeController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'name' => 'string|max:255',
             'email' => 'required|string|email|max:255|unique:subscribes',
         ]);
 
         $subscribe = new \App\Models\Subscribe();
+        $subscribe->name = $request->name ?? null;
         $subscribe->email = $request->email;
         $subscribe->save();
         return response()->json(['message' => 'Subscription successful'], 201);
