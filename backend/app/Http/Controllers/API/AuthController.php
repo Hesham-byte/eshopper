@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Controllers\Controller;
 use App\Models\Client;
 use Illuminate\Http\Request;
+use Tymon\JWTAuth\Facades\JWTAuth;
+use App\Http\Controllers\Controller;
 
 class AuthController extends Controller
 {
@@ -22,7 +23,9 @@ class AuthController extends Controller
             'password' => bcrypt($request->password),
         ]);
 
-        return response()->json(['message' => 'User registered successfully', 'user' => $user], 201);
+        $token = JWTAuth::fromUser($user);
+
+        return response()->json(['message' => 'User registered successfully', 'user' => $user, 'access_token' => $token], 201);
     }
 
     public function login(Request $request)
@@ -34,7 +37,7 @@ class AuthController extends Controller
 
         $credentials = $request->only('email', 'password');
 
-        if (! $token = auth('api')->attempt($credentials)) {
+        if (!$token = JWTAuth::attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 

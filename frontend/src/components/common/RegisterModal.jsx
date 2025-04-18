@@ -31,7 +31,7 @@ const RegisterModal = () => {
                 password_confirmation: form.confirmPassword,
             });
 
-            const token = res.data.token;
+            const token = res.data.access_token;
 
             // Save token to localStorage or state
             localStorage.setItem('token', token);
@@ -48,7 +48,7 @@ const RegisterModal = () => {
             },1500);
             setError('');
         } catch (err) {
-            setError(err.response?.data?.message || 'Registration failed');
+            setError('Registration failed');
         }
     };
 
