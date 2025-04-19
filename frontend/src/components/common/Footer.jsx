@@ -133,10 +133,10 @@ const Footer = () => {
                 <div className="row border-top border-light mx-xl-5 py-4">
                     <div className="col-md-6 px-xl-0">
                         <p className="mb-md-0 text-center text-md-left text-dark">
-                            &copy; <a className="text-dark font-weight-semi-bold" href="#">Your Site Name</a>. All
+                            &copy; <Link className="text-dark font-weight-semi-bold" to="/">{getSettingValue('site_name')}</Link>. All
                             Rights Reserved. Designed
                             by
-                            <a className="text-dark font-weight-semi-bold" href="https://htmlcodex.com">HTML
+                            <a className="text-dark font-weight-semi-bold" href="https://htmlcodex.com"> HTML
                                 Codex</a><br/>
                             Distributed By <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
                         </p>
