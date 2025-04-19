@@ -11,9 +11,15 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Product::where('is_active', true)->orderBy('order_column')->get()->map(function ($product) {
+        $query = Product::query();
+
+        if ($request->has('category')) {
+            $query->where('category_id', $request->category);
+        }
+
+        return $query->where('is_active', true)->orderBy('order_column')->get()->map(function ($product) {
             return [
                 'id' => $product->id,
                 'name' => $product->name,

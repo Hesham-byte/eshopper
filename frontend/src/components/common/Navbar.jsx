@@ -50,9 +50,9 @@ const Navbar = () => {
 
 
 
-    const handleDepartmentClick = (e) => {
+    const handleCategoryClick = (e , id) => {
         e.preventDefault();
-        navigate(`/shop?department=${department.id}`);
+        navigate(`/shop?categoryId=${id}`);
     };
 
     return (
@@ -80,7 +80,7 @@ const Navbar = () => {
                                                 href="#"
                                                 className="nav-link"
                                                 data-toggle="dropdown"
-                                                onClick={handleDepartmentClick}
+                                                onClick={(e) => e.preventDefault()}
                                             >
                                                 {department.name}{" "}
                                                 {department.categories.length > 0 && (
@@ -94,7 +94,7 @@ const Navbar = () => {
                                                             href="#"
                                                             className="dropdown-item"
                                                             key={category.id}
-                                                            onClick={(e) => e.preventDefault()}
+                                                            onClick={(e) => handleCategoryClick(e, category.id)}
                                                         >
                                                             {category.name}
                                                         </a>

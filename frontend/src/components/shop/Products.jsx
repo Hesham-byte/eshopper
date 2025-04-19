@@ -1,22 +1,25 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
 
-const Products = () => {
-
+const Products = ({categoryId}) => {
     const [products, setProducts] = useState([]);
-
     useEffect(() => {
+        console.log(categoryId)
         const fetchProducts = async () => {
             try {
-                const response = await axios.get(import.meta.env.VITE_API_URL + '/products');
+                let url = import.meta.env.VITE_API_URL + '/products';
+                if (categoryId) {
+                    url += `?category=${categoryId}`;
+                }
+                const response = await axios.get(url);
                 setProducts(response.data);
             } catch (error) {
-                console.error("Error fetching products:", error);
+                console.error("Failed to fetch products:", error);
             }
         };
 
         fetchProducts();
-    }, []);
+    }, [categoryId]);
 
     return (
         <>
