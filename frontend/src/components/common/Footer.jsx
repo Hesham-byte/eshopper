@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import axios from "axios";
 
 const Footer = () => {
@@ -6,6 +6,20 @@ const Footer = () => {
     const [email, setEmail] = useState('');
     const [message, setMessage] = useState('');
     const [loading, setLoading] = useState(false);
+    const [settings, setSettings] = useState([]);
+
+    useEffect(() => {
+        const fetchSettings = async () => {
+            try {
+                const response = await axios.get(import.meta.env.VITE_API_URL + '/settings');
+                setSettings(response.data);
+            } catch (error) {
+                console.error("Error fetching settings:", error);
+            }
+        };
+
+        fetchSettings();
+    }, [])
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -40,6 +54,11 @@ const Footer = () => {
         setLoading(false);
     };
 
+    const getSettingValue = (key) => {
+        const setting = settings.find(item => item.key === key);
+        return setting ? setting.value : null;
+    };
+
     return (
         <>
             <div className="container-fluid bg-secondary text-dark mt-5 pt-5">
@@ -47,15 +66,13 @@ const Footer = () => {
                     <div className="col-lg-4 col-md-12 mb-5 pr-3 pr-xl-5">
                         <a href="" className="text-decoration-none">
                             <h1 className="mb-4 display-5 font-weight-semi-bold"><span
-                                className="text-primary font-weight-bold border border-white px-3 mr-1">E</span>Shopper
+                                className="text-primary font-weight-bold border border-white px-3 mr-1">{getSettingValue("site_name")}</span>
                             </h1>
                         </a>
-                        <p>Dolore erat dolor sit lorem vero amet. Sed sit lorem magna, ipsum no sit erat lorem et magna
-                            ipsum dolore amet erat.</p>
-                        <p className="mb-2"><i className="fa fa-map-marker-alt text-primary mr-3"></i>123 Street, New
-                            York, USA</p>
-                        <p className="mb-2"><i className="fa fa-envelope text-primary mr-3"></i>info@example.com</p>
-                        <p className="mb-0"><i className="fa fa-phone-alt text-primary mr-3"></i>+012 345 67890</p>
+                        <p>{getSettingValue("site_description")}</p>
+                        <p className="mb-2"><i className="fa fa-map-marker-alt text-primary mr-3"></i>{getSettingValue("address")}</p>
+                        <p className="mb-2"><i className="fa fa-envelope text-primary mr-3"></i>{getSettingValue("email")}</p>
+                        <p className="mb-0"><i className="fa fa-phone-alt text-primary mr-3"></i>{getSettingValue("phone")}</p>
                     </div>
                     <div className="col-lg-8 col-md-12">
                         <div className="row">

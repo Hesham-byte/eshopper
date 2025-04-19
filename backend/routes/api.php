@@ -9,6 +9,7 @@ use App\Http\Controllers\API\FeaturedController;
 use App\Http\Controllers\API\DepartmentController;
 use App\Http\Controllers\API\OfferController;
 use App\Http\Controllers\API\ProductController;
+use App\Http\Controllers\API\SettingController;
 use App\Http\Controllers\API\SocialMediaController;
 use App\Http\Controllers\API\SubscribeController;
 
@@ -22,6 +23,7 @@ Route::apiResources([
     "products" => ProductController::class,
     "subscribe" => SubscribeController::class,
     "contact" => ContactController::class,
+    "settings" => SettingController::class,
 ]);
 
 Route::post("register", [AuthController::class, 'register'])->name('register');
