@@ -4,6 +4,7 @@ use App\Http\Controllers\API\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\SliderController;
 use App\Http\Controllers\API\CategoryController;
+use App\Http\Controllers\API\ContactController;
 use App\Http\Controllers\API\FeaturedController;
 use App\Http\Controllers\API\DepartmentController;
 use App\Http\Controllers\API\OfferController;
@@ -20,6 +21,7 @@ Route::apiResources([
     "offers" => OfferController::class,
     "products" => ProductController::class,
     "subscribe" => SubscribeController::class,
+    "contact" => ContactController::class,
 ]);
 
 Route::post("register", [AuthController::class, 'register'])->name('register');

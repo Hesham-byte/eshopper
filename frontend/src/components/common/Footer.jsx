@@ -26,15 +26,15 @@ const Footer = () => {
             });
 
             if (response.data.message) {
-                setMessage('✅ Subscribed successfully!');
+                setMessage('Subscribed successfully!');
                 setName('');
                 setEmail('');
             } else {
-                setMessage('❌ Failed to subscribe. Try again.');
+                setMessage('Failed to subscribe. Try again.');
             }
         } catch (error) {
             console.error(error);
-            setMessage('⚠️ An error occurred. Please try again.');
+            setMessage('An error occurred. Please try again.');
         }
 
         setLoading(false);

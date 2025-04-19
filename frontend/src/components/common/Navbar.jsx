@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
-import {Link, useLocation} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import LoginModal from "./LoginModal.jsx";
 import RegisterModal from "./RegisterModal.jsx";
 
 
 const Navbar = () => {
+    const navigate = useNavigate();
     const location = useLocation();
     const isHomePage = location.pathname === '/';
 
@@ -48,6 +49,12 @@ const Navbar = () => {
     }, []);
 
 
+
+    const handleDepartmentClick = (e) => {
+        e.preventDefault();
+        navigate(`/shop?department=${department.id}`);
+    };
+
     return (
         <>
             <div className="container-fluid mb-5">
@@ -73,7 +80,7 @@ const Navbar = () => {
                                                 href="#"
                                                 className="nav-link"
                                                 data-toggle="dropdown"
-                                                onClick={(e) => e.preventDefault()}
+                                                onClick={handleDepartmentClick}
                                             >
                                                 {department.name}{" "}
                                                 {department.categories.length > 0 && (
